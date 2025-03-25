@@ -1,0 +1,64 @@
+
+
+- CSS
+    - Typography +
+        - Parrafo +
+        - Lead +
+        - Listas +
+        - Enfasis +
+        - Code +
+    - Headers +
+        - Basicos +
+        - Section Title +
+        - Page Header +
+    - Dividers +
+    - Blockquotes +
+    - Testimonials
+    - Forms
+        - Basic Controls +
+        - Input groups
+    - Tables +
+- Buttons +
+    - Basic Buttons
+        - Basic Buttons +
+        - Buttons Group
+        - Button dropdowns
+    - Additional Library CSS +
+    - Social Buttons +
+- Icons +
+    - Glyph +
+    - Awesome Font +
+    - Social Icons +
+- Components
+    - Dropdowns
+    - Panels
+    - Lists
+        - Media object
+    - Paginations
+    - Labels and Bages
+    - Alerts
+    - Wells
+    - Progress Bars
+    - Thumbnails
+    - Modals
+    - Jumbotron
+- Accordion y Tabs
+- Contents Box
+- Carousels
+- Charts & CountDowns
+
+
+
+@googleplus-color: #dd4b39;
+@youtube-color: #bb0000;
+@linkedin-color: #007bb6;
+@instagram-color: #517fa4;
+@pinterest-color: #cb2027;
+@wordpress-color: #4597be;
+@git-color: #666;
+@flickr-color: #ff0084;
+@stack-overflow-color: #bbb;
+@vine-color: #00b48a;
+@dribbble-color: #f26798;
+@foursquare-color : #0072b1;
+@tumblr-color: #32506d;

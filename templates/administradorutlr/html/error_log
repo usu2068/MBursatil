@@ -1,0 +1,6 @@
+[11-Oct-2024 09:30:51 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/aplicati/public_html/utlr/templates/administradorutlr/html/g_emi.php on line 44
+[16-Oct-2024 15:29:26 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/aplicati/public_html/utlr/templates/administradorutlr/html/g_emi.php on line 44
+[16-Oct-2024 15:31:02 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/aplicati/public_html/utlr/templates/administradorutlr/html/g_emi.php on line 44
+[15-Nov-2024 16:23:16 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/aplicati/public_html/utlr/templates/administradorutlr/html/g_emi.php on line 44
+[06-Dec-2024 15:54:27 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/aplicati/public_html/utlr/templates/administradorutlr/html/g_emi.php on line 44
+[06-Dec-2024 15:54:35 America/Bogota] PHP Warning:  mysqli_fetch_array() expects parameter 1 to be mysqli_result, boolean given in /home/aplicati/public_html/utlr/templates/administradorutlr/html/g_emi.php on line 44
