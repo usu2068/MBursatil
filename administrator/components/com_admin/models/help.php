@@ -1,5 +1,12 @@
 <?php
 /**
+ * define el modelo de help, que proporciona informacion de ayuda dentro del backend del sistema 
+ * Maneja el sistema de ayuda en el backend, permitiendo:
+ * 	Buscar información en la documentación
+ * 	Cargar la pagina de ayuda correspondiente
+ * 	Obtener la tabla de contenidos
+ * 	Verificar la version mas reciente de joomla
+ * 
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
@@ -7,6 +14,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+ /**evita que el archivo sea ejecutado directamente fuera de joomla - proteccion contra acceso
+  * JEXEC es una constante que solo esta definida cuando joonla esta en ejecucion
+  */
 defined('_JEXEC') or die;
 
 /**
@@ -25,7 +35,7 @@ class AdminModelHelp extends JModelLegacy
 	 *
 	 * @since  1.6
 	 */
-	protected $help_search = null;
+	protected $help_search = null; //busqueda de ayuda
 
 	/**
 	 * The page to be viewed
@@ -34,7 +44,7 @@ class AdminModelHelp extends JModelLegacy
 	 *
 	 * @since  1.6
 	 */
-	protected $page = null;
+	protected $page = null; //pagina actual de ayuda
 
 	/**
 	 * The iso language tag
@@ -43,7 +53,7 @@ class AdminModelHelp extends JModelLegacy
 	 *
 	 * @since  1.6
 	 */
-	protected $lang_tag = null;
+	protected $lang_tag = null; //codigo de idioma ISO
 
 	/**
 	 * Table of contents
@@ -52,7 +62,7 @@ class AdminModelHelp extends JModelLegacy
 	 *
 	 * @since  1.6
 	 */
-	protected $toc = null;
+	protected $toc = null; //tabla de contenido (TOC)
 
 	/**
 	 * URL for the latest version check
@@ -61,7 +71,7 @@ class AdminModelHelp extends JModelLegacy
 	 *
 	 * @since  1.6
 	 */
-	protected $latest_version_check = null;
+	protected $latest_version_check = null; //URL para verificar la version mas reciente
 
 	/**
 	 * Method to get the help search string
@@ -70,14 +80,15 @@ class AdminModelHelp extends JModelLegacy
 	 *
 	 * @since  1.6
 	 */
-	public function &getHelpSearch()
+	public function &getHelpSearch() //metodo, obtiene la cadena de busqueda ingresada por el usuario
 	{
 		if (is_null($this->help_search))
 		{
+			//si help_search es null, recupera el valor de helpsearch desde la solicitud http.
 			$this->help_search = JFactory::getApplication()->input->getString('helpsearch');
 		}
 
-		return $this->help_search;
+		return $this->help_search; //devuelve la cadena de busqueda
 	}
 
 	/**
@@ -87,15 +98,16 @@ class AdminModelHelp extends JModelLegacy
 	 *
 	 * @since  1.6
 	 */
-	public function &getPage()
+	public function &getPage() //metodo, obtiene la ayuda que se debe visualizar
 	{
 		if (is_null($this->page))
 		{
+			//si page es null, recupera la pagina desde la solicitud http o  usa JHELP_START_HERE por defecto
 			$page = JFactory::getApplication()->input->get('page', 'JHELP_START_HERE');
-			$this->page = JHelp::createUrl($page);
+			$this->page = JHelp::createUrl($page); //genera la URL correspondiente
 		}
 
-		return $this->page;
+		return $this->page; //devuelve la URL de la pagina de ayuda
 	}
 
 	/**
@@ -105,20 +117,22 @@ class AdminModelHelp extends JModelLegacy
 	 *
 	 * @since  1.6
 	 */
-	public function getLangTag()
+	public function getLangTag() //metodo, obtiene el codigo de idioma ISO que se usara en la ayuda
 	{
+			//si lang_tag es null, obtiene el idioma del sistema $lang->getTag()
 		if (is_null($this->lang_tag))
 		{
 			$lang = JFactory::getLanguage();
 			$this->lang_tag = $lang->getTag();
 
+			//si no existe documentacion en ese idioma, usa en-GB (inglés) por defecto
 			if (!is_dir(JPATH_BASE . '/help/' . $this->lang_tag))
 			{
 				// Use english as fallback
-				$this->lang_tag = 'en-GB';
+				$this->lang_tag = 'en-GB'; 
 			}
 		}
-
+		//devuelve el codigo del idioma
 		return $this->lang_tag;
 	}
 
@@ -127,8 +141,9 @@ class AdminModelHelp extends JModelLegacy
 	 *
 	 * @return  array  Table of contents
 	 */
-	public function &getToc()
+	public function &getToc() //metodo, obtiene la tabla de contenidos (TOC) de la ayuda
 	{
+		//si toc es null, obtiene el codigo de idioma y la busqueda
 		if (is_null($this->toc))
 		{
 			// Get vars
@@ -136,11 +151,13 @@ class AdminModelHelp extends JModelLegacy
 			$help_search = $this->getHelpSearch();
 
 			// New style - Check for a TOC JSON file
+			//si existe un archivo toc.json, lo carga y lo decodifica.
 			if (file_exists(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'))
 			{
 				$data = json_decode(file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'));
 
 				// Loop through the data array
+				//traduce y almacena los titulos de la ayuda
 				foreach ($data as $key => $value)
 				{
 					$this->toc[$key] = JText::_('COM_ADMIN_HELP_' . $value);
@@ -149,6 +166,7 @@ class AdminModelHelp extends JModelLegacy
 			else
 			{
 				// Get Help files
+				//si no hay archivos JSON, busca archivos .xml o .html
 				jimport('joomla.filesystem.folder');
 				$files = JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 				$this->toc = array();
@@ -157,6 +175,7 @@ class AdminModelHelp extends JModelLegacy
 				{
 					$buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);
 
+					//extrae el titulo del archivo
 					if (preg_match('#<title>(.*?)</title>#', $buffer, $m))
 					{
 						$title = trim($m[1]);
@@ -164,12 +183,13 @@ class AdminModelHelp extends JModelLegacy
 						if ($title)
 						{
 							// Translate the page title
+							//traduce el titulo de la pagina
 							$title = JText::_($title);
 
 							// Strip the extension
 							$file = preg_replace('#\.xml$|\.html$#', '', $file);
 
-							if ($help_search)
+							if ($help_search) //filtra los archivos segun la busqueda
 							{
 								if (JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) !== false)
 								{
@@ -188,10 +208,11 @@ class AdminModelHelp extends JModelLegacy
 			}
 
 			// Sort the Table of Contents
+			//ordena los resultados alfabeticamente
 			asort($this->toc);
 		}
 
-		return $this->toc;
+		return $this->toc; //devuelve la tabla de contenidos
 	}
 
 	/**
@@ -199,14 +220,15 @@ class AdminModelHelp extends JModelLegacy
 	 *
 	 * @return  string  Latest Version Check URL
 	 */
-	public function &getLatestVersionCheck()
+	public function &getLatestVersionCheck() //metodo, obtiene la URL para verificar la version mas reciente de joomla
 	{
+		//si latest_version_check es null, construye la URL con JHelp::createUrl
 		if (!$this->latest_version_check)
 		{
 			$override = 'http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:Joomla_Version_{major}_{minor}_{maintenance}';
 			$this->latest_version_check = JHelp::createUrl('JVERSION', false, $override);
 		}
 
-		return $this->latest_version_check;
+		return $this->latest_version_check; //devuelve la URL de veriicación
 	}
 }
