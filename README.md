@@ -1,2 +1,2 @@
-# MBursatil
-Código fuente de Maestro Bursatil
+# Cpc
+Código fuente de aplicativojuridico.com
