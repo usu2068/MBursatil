@@ -7,10 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+ //evita el acceso directo al archivo
 defined('_JEXEC') or die;
 
 /**
  * Model for the display of system information.
+ * modelo para mostrar la informacion del sistema de joomla
  *
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -19,31 +21,31 @@ defined('_JEXEC') or die;
 class AdminModelSysInfo extends JModelLegacy
 {
 	/**
-	 * @var array Some PHP settings
+	 * @var array Some PHP settings, configuracion de PHP
 	 * @since  1.6
 	 */
 	protected $php_settings = null;
 
 	/**
-	 * @var array Config values
+	 * @var array Config values, configuracion del sistema
 	 * @since  1.6
 	 */
 	protected $config = null;
 
 	/**
-	 * @var array Some system values
+	 * @var array Some system values, informacion del sistema
 	 * @since  1.6
 	 */
 	protected $info = null;
 
 	/**
-	 * @var string PHP info
+	 * @var string PHP info, informacion de PHP
 	 * @since  1.6
 	 */
 	protected $php_info = null;
 
 	/**
-	 * Information about writable state of directories
+	 * Information about writable state of directories, estados de directorios del sistema
 	 *
 	 * @var array
 	 * @since  1.6
@@ -52,6 +54,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 	/**
 	 * The current editor.
+	 * editor predeterminado
 	 *
 	 * @var string
 	 * @since  1.6
@@ -60,8 +63,9 @@ class AdminModelSysInfo extends JModelLegacy
 
 	/**
 	 * Method to get the ChangeLog
+	 * obtiene la configuracion de PHP
 	 *
-	 * @return array some php settings
+	 * @return array some php settings, configuracion de php
 	 *
 	 * @since  1.6
 	 */
@@ -93,8 +97,9 @@ class AdminModelSysInfo extends JModelLegacy
 
 	/**
 	 * Method to get the config
+	 * obtiene la configuracion del sistema de joomla
 	 *
-	 * @return  array  config values
+	 * @return  array  config values, configuracion del sistema
 	 *
 	 * @since  1.6
 	 */
@@ -104,6 +109,7 @@ class AdminModelSysInfo extends JModelLegacy
 		{
 			$registry = new JRegistry(new JConfig);
 			$this->config = $registry->toArray();
+			//ocultar informacion sensible como contraseñas y usuarios
 			$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass');
 
 			foreach ($hidden as $key)
@@ -117,6 +123,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 	/**
 	 * Method to get the system information
+	 * obtiene la informacion general del sistema
 	 *
 	 * @return  array system information values
 	 *
@@ -156,8 +163,9 @@ class AdminModelSysInfo extends JModelLegacy
 
 	/**
 	 * Method to get the PHP info
+	 * obtiene la informacion de PHP formateada.
 	 *
-	 * @return  string PHP info
+	 * @return  string PHP info, informacion de PHP
 	 *
 	 * @since  1.6
 	 */
@@ -186,8 +194,9 @@ class AdminModelSysInfo extends JModelLegacy
 
 	/**
 	 * Method to get the directory states
+	 * metodo para obtener los estados de los directorios
 	 *
-	 * @return array States of directories
+	 * @return array States of directories, estados de los directorios
 	 *
 	 * @since  1.6
 	 */
@@ -200,10 +209,11 @@ class AdminModelSysInfo extends JModelLegacy
 			$registry = JFactory::getConfig();
 			$cparams = JComponentHelper::getParams('com_media');
 
+			//agregar directorios del administrador
 			$this->_addDirectory('administrator/components', JPATH_ADMINISTRATOR . '/components');
 			$this->_addDirectory('administrator/language', JPATH_ADMINISTRATOR . '/language');
 
-			// List all admin languages
+			// listar todos los idiomas del administrador
 			$admin_langs = new DirectoryIterator(JPATH_ADMINISTRATOR . '/language');
 
 			foreach ($admin_langs as $folder)
@@ -217,6 +227,7 @@ class AdminModelSysInfo extends JModelLegacy
 			}
 
 			// List all manifests folders
+			//listar todas las carpetas de manifiestos del administrador
 			$manifests = new DirectoryIterator(JPATH_ADMINISTRATOR . '/manifests');
 
 			foreach ($manifests as $folder)
@@ -237,6 +248,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->_addDirectory($cparams->get('image_path'), JPATH_SITE . '/' . $cparams->get('image_path'));
 
 			// List all images folders
+			//listar todas las carpetas de imagenes
 			$image_folders = new DirectoryIterator(JPATH_SITE . '/' . $cparams->get('image_path'));
 
 			foreach ($image_folders as $folder)
@@ -252,6 +264,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->_addDirectory('language', JPATH_SITE . '/language');
 
 			// List all site languages
+			//listar todos los idiomas del sitio
 			$site_langs = new DirectoryIterator(JPATH_SITE . '/language');
 
 			foreach ($site_langs as $folder)
@@ -270,6 +283,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->_addDirectory('modules', JPATH_SITE . '/modules');
 			$this->_addDirectory('plugins', JPATH_PLUGINS);
 
+				//listar todos los grupos de plugins
 			$plugin_groups = new DirectoryIterator(JPATH_SITE . '/plugins');
 
 			foreach ($plugin_groups as $folder)
@@ -296,6 +310,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 	/**
 	 * Method to add a directory
+	 * metodo para agregar un directorio a la lista
 	 *
 	 * @return void
 	 * @since  1.6
@@ -303,9 +318,9 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Method to add a directory
 	 *
-	 * @param   string  $name     Directory Name
-	 * @param   string  $path     Directory path
-	 * @param   string  $message  Message
+	 * @param   string  $name     Directory Name, nombre del directorio
+	 * @param   string  $path     Directory path, ruta del directorio
+	 * @param   string  $message  Message, mensaje adicional (opcional)
 	 *
 	 * @return   void
 	 */
@@ -316,8 +331,9 @@ class AdminModelSysInfo extends JModelLegacy
 
 	/**
 	 * Method to get the editor
+	 * metodo para obtener el editor por defecto
 	 *
-	 * @return  string The default editor
+	 * @return  string The default editor, el editor predeterminado
 	 *
 	 * @note: has to be removed (it is present in the config...)
 	 *
