@@ -1,6 +1,10 @@
+<!--Archivo donde se presenta el formulario de inicio de sesion a la plataforma-->
 <?xml version="1.0" encoding="utf-8"?>
+<!--Definicion del formulario de usuario-->
 <form>
+	<!--Sección de detalles del usuario - registrarse en el sistema-->
 	<fieldset name="user_details">
+		<!--Campo para ingresar el nombre, especifica la descripcion y tamaño del campo-->
 		<field name="name" type="text"
 			description="COM_ADMIN_USER_FIELD_NAME_DESC"
 			label="COM_ADMIN_USER_HEADING_NAME"
@@ -8,6 +12,7 @@
 			size="30"
 		/>
 
+		<!--Campo para ingresar el usuario, especifica la descripcion y tamaño del campo-->
 		<field name="username" type="text"
 			description="COM_ADMIN_USER_FIELD_USERNAME_DESC"
 			label="COM_ADMIN_USER_FIELD_USERNAME_LABEL"
@@ -15,18 +20,20 @@
 			size="30"
 		/>
 
+		<!--Campo para ingresar la contraseña-->
 		<field name="password2" type="password"
 			autocomplete="off"
 			class="validate-password"
 			description="COM_ADMIN_USER_FIELD_PASSWORD_DESC"
 			field="password"
-			filter="raw"
+			filter="raw" 
 			label="JGLOBAL_PASSWORD"
 			message="COM_ADMIN_USER_FIELD_PASSWORD1_MESSAGE"
 			size="30"
 			validate="equals"
 		/>
 
+		<!--Campo para volver a ingresar la contraseña-->
 		<field name="password" type="password"
 			autocomplete="off"
 			class="validate-password"
@@ -37,6 +44,7 @@
 			validate="password"
 		/>
 
+		<!--Campo para ingresar el correo-->
 		<field name="email" type="email"
 			class="validate-email"
 			description="COM_ADMIN_USER_FIELD_EMAIL_DESC"
@@ -46,6 +54,7 @@
 			validate="email"
 		/>
 
+		<!--Campo para ingresar fecha de registro al sistema, es un dato que el sistema ya recopila por si solo y no es necesario el proceso por parte del usuario -->
 		<field
 			name="registerDate"
 			type="calendar"
@@ -58,6 +67,7 @@
 			filter="user_utc"
 		/>
 
+		<!--Campo para ingresar fecha de ultima visita al sistema, es un dato que el sistema ya recopila por si solo y no es necesario el proceso por parte del usuario -->
 		<field
 			name="lastvisitDate"
 			type="calendar"
@@ -70,6 +80,7 @@
 			filter="user_utc"
 		/>
 
+		<!--Campo que asigna un ID al usuario, es de solo lectura -->
 		<field
 			name="id"
 			type="text"
@@ -81,13 +92,17 @@
 			filter="unset"
 			/>
 
+	<!--fin del conjunto de datos -->
 	</fieldset>
 
+	<!--configuracion adicional del usuario -->
 	<fields name="params">
 
+		<!--Sección de ajustes basicos de la cuenta del usuario -->
 		<!--  Basic user account settings. -->
 		<fieldset name="settings" label="COM_ADMIN_USER_SETTINGS_FIELDSET_LABEL">
 
+			<!--permite al usuario administrador elegir el estilo de la plantilla que se aplicara en el area administrativa (backed) de joomla -->
 			<field name="admin_style" type="templatestyle"
 				client="administrator"
 				description="COM_ADMIN_USER_FIELD_BACKEND_TEMPLATE_DESC"
@@ -96,6 +111,7 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
+			<!--permite al usuario elegir el idioma del panel de administracion -->
 			<field name="admin_language" type="language"
 				client="administrator"
 				description="COM_ADMIN_USER_FIELD_BACKEND_LANGUAGE_DESC"
@@ -104,14 +120,16 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
+			<!--permite al usuario seleccionar el idioma predeterminado para la interfaz pública (frontend) del sitio, en client se identifica a donde se aplica -->
 			<field name="language" type="language"
-				client="site"
+				client="site" 
 				description="COM_ADMIN_USER_FIELD_FRONTEND_LANGUAGE_DESC"
 				label="COM_ADMIN_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
+			<!--permite elegir el editor de texto WYSIWYG que el usuario usará en joomla, type="plugins"-->
 			<field name="editor" type="plugins" folder="editors"
 				description="COM_ADMIN_USER_FIELD_EDITOR_DESC"
 				label="COM_ADMIN_USER_FIELD_EDITOR_LABEL"
@@ -119,6 +137,7 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
+			<!--Define el sitio de documentación o soporte tecnico que se usara en joomla cuando el usuario solicite ayuda -->
 			<field name="helpsite" type="helpsite"
 				label="COM_ADMIN_USER_FIELD_HELPSITE_LABEL"
 				description="COM_ADMIN_USER_FIELD_HELPSITE_DESC"
@@ -126,6 +145,7 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
+			<!--permite al usuario establecer su zona horaria preferida -->
 			<field name="timezone" type="timezone"
 				label="COM_ADMIN_USER_FIELD_TIMEZONE_LABEL"
 				description="COM_ADMIN_USER_FIELD_TIMEZONE_DESC"
