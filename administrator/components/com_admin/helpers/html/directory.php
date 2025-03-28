@@ -1,6 +1,7 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * el paquete joomla.administrator, esta definido para que el administrador del sitio pueda usar los elementos de joomla sobre la cual esta montada la pagina
+ * @package     Joomla.Administrator 
  * @subpackage  com_admin
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
